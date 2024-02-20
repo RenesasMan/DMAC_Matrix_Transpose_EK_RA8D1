@@ -14,8 +14,8 @@ extern const transfer_cfg_t g_transfer_new_cfg;
 
 
 //define as UINT16_t
-extern volatile uint16_t src_matrix[SRC_MATRIX_X_SIZE][SRC_MATRIX_Y_SIZE];
-extern volatile uint16_t dst_matrix[DST_MATRIX_X_SIZE][DST_MATRIX_Y_SIZE];
+extern uint16_t src_matrix[SRC_MATRIX_X_SIZE][SRC_MATRIX_Y_SIZE];
+extern uint16_t dst_matrix[DST_MATRIX_X_SIZE][DST_MATRIX_Y_SIZE];
 
 void fill_src_matrix(void);
 
@@ -37,6 +37,8 @@ void hal_entry(void)
 
     //fill the source matrix
     fill_src_matrix();
+    //clear the destination matrix
+    memset(dst_matrix,0,DST_MATRIX_X_SIZE*DST_MATRIX_Y_SIZE);
 
     // Open the DMAC with the new settings in dmac_settings.c
     status = R_DMAC_Open(&g_transfer_new_ctrl, &g_transfer_new_cfg);
@@ -51,18 +53,17 @@ void hal_entry(void)
     while(1)
     {
         status = R_DMAC_SoftwareStart(&g_transfer_new_ctrl, TRANSFER_START_MODE_REPEAT);
-        R_IOPORT_PinWrite(&g_ioport_ctrl, USER_LED3_RED, BSP_IO_LEVEL_HIGH );
+//        R_IOPORT_PinWrite(&g_ioport_ctrl, USER_LED3_RED, BSP_IO_LEVEL_HIGH );
 
         // stay here until the DMAC is over
         while( g_is_transfer_complete == false)
         {
-//            R_BSP_SoftwareDelay(1, BSP_DELAY_UNITS_MICROSECONDS);
             __asm("NOP\n");
         }
         g_is_transfer_complete = false;
-        R_IOPORT_PinWrite(&g_ioport_ctrl, USER_LED3_RED, BSP_IO_LEVEL_LOW );
+//        R_IOPORT_PinWrite(&g_ioport_ctrl, USER_LED3_RED, BSP_IO_LEVEL_LOW );
 
-        R_BSP_SoftwareDelay(100, BSP_DELAY_UNITS_MILLISECONDS);
+        R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
 
     }
 
@@ -105,6 +106,7 @@ void R_BSP_WarmStart(bsp_warm_start_event_t event)
     }
 }
 
+//TODO: account for 16-bit overrun if SRC_MATRIX_X_SIZE * ...Y_SIZE > 65535
 /*******************************************************************************************************************//**
  * Populate src_matrix with data to transpose
  *
