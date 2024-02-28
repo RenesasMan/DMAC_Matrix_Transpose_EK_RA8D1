@@ -63,7 +63,7 @@ void hal_entry(void)
         g_is_transfer_complete = false;
 //        R_IOPORT_PinWrite(&g_ioport_ctrl, USER_LED3_RED, BSP_IO_LEVEL_LOW );
 
-        R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
+        R_BSP_SoftwareDelay(100, BSP_DELAY_UNITS_MILLISECONDS);
 
     }
 

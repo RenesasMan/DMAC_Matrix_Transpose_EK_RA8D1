@@ -24,6 +24,8 @@
 #include "r_dmac.h"
 #include "r_dmac_cfg.h"
 
+//#include "common_data.h"
+
 /***********************************************************************************************************************
  * Macro definitions
  **********************************************************************************************************************/
@@ -108,7 +110,7 @@ void dmac_int_isr(void);
 
 static fsp_err_t r_dmac_prv_enable(dmac_instance_ctrl_t * p_ctrl);
 static void      r_dmac_prv_disable(dmac_instance_ctrl_t * p_ctrl);
-static void      r_dmac_config_transfer_info(dmac_instance_ctrl_t * p_ctrl, transfer_info_t * p_info);
+//void      r_dmac_config_transfer_info(dmac_instance_ctrl_t * p_ctrl, transfer_info_t * p_info);
 
 #if DMAC_CFG_PARAM_CHECKING_ENABLE
 static fsp_err_t r_dma_open_parameter_checking(dmac_instance_ctrl_t * const p_ctrl, transfer_cfg_t const * const p_cfg);
@@ -507,7 +509,7 @@ static void r_dmac_prv_disable (dmac_instance_ctrl_t * p_ctrl)
  * @param[in]   p_ctrl         Pointer to control structure.
  * @param       p_info         Pointer to transfer info.
  **********************************************************************************************************************/
-static void r_dmac_config_transfer_info (dmac_instance_ctrl_t * p_ctrl, transfer_info_t * p_info)
+void r_dmac_config_transfer_info (dmac_instance_ctrl_t * p_ctrl, transfer_info_t * p_info)
 {
     dmac_extended_cfg_t * p_extend = (dmac_extended_cfg_t *) p_ctrl->p_cfg->p_extend;
 

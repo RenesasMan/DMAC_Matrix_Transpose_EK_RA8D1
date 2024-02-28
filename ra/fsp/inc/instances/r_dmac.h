@@ -134,6 +134,8 @@ fsp_err_t R_DMAC_BlockReset(transfer_ctrl_t * const p_ctrl,
                             transfer_size_t         size,
                             uint16_t const          num_transfers);
 
+void r_dmac_config_transfer_info (dmac_instance_ctrl_t * p_ctrl, transfer_info_t * p_info);
+
 /* Common macro for FSP header files. There is also a corresponding FSP_HEADER macro at the top of this file. */
 FSP_FOOTER
 
